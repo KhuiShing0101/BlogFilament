@@ -1,13 +1,12 @@
 <?php
 
 namespace App\View\Components;
-
 use Closure;
 use App\Models\Category;
 use Illuminate\View\Component;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 
+use Illuminate\Support\Facades\DB;
 class AppLayout extends Component
 {
     /**
