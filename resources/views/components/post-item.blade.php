@@ -13,7 +13,9 @@
         
         <a href="{{route('view',$post)}}" class="text-3xl font-bold hover:text-gray-700 pb-4">{{$post->title}}</a>
         <p href="{{route('view',$post)}}" class="text-sm pb-3">
-            By <a href="#" class="font-semibold hover:text-gray-800">{{$post->user->name}}</a>, {{$post->getFormatedDate()}}
+            By <a href="#" class="font-semibold hover:text-gray-800">{{$post->user->name}}</a>,
+            {{$post->getFormatedDate()}} | {{ $post->human_read_time }}
+
         </p>
         <a href="#" class="pb-6">
             {{$post->shortBody()}}
