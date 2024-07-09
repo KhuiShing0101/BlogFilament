@@ -5,8 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryPost extends Model
+class Comment extends Model
 {
-    protected $table = 'category_post';
     use HasFactory;
+
+    protected $fillable=[
+        'comment',
+        'post_id',
+        'user_id'
+    ];
 }
