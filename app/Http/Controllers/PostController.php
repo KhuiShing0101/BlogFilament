@@ -20,7 +20,6 @@ class PostController extends Controller
                         ->orderBy('published_at','desc')
                         ->limit(1)
                         ->first();
-        // dd($latest_post);
 
         // most 3 popular posts
         $popular_posts = Post::query()
@@ -75,10 +74,10 @@ class PostController extends Controller
         }else {
             $recommended_posts = Post::query()
                 ->leftJoin('post_views', 'posts.id', '=', 'post_views.post_id')
-                ->select('posts.*', DB::raw('COUNT(post_views.id) as viewCount'))
+                ->select('posts.*', DB::raw('COUNT(post_views.id) as view_count'))
                 ->where('active', '=', 1)
                 ->whereDate('published_at', '<', Carbon::now())
-                ->orderByDesc('viewCount')
+                ->orderByDesc('view_count')
                 ->groupBy([
                     'posts.id',
                     'posts.title',
@@ -170,4 +169,14 @@ class PostController extends Controller
         return view('post.index',compact('posts','category'));
     }
 
+    public function search(Request $request){
+        $q = $request->get('q');
+        $posts = Post::query()
+                ->where('active','=',true)
+                ->whereDate('published_at','<=',Carbon::now())
+                ->orderBy('published_at','desc')
+                ->where('title','like',"%$q%")
+                ->paginate('10');
+        return view('post.search',compact('posts'));
+    }
 } 

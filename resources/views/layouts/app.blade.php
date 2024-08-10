@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $metaTitle ?: 'The Coder BLog'  }}</title>
+    <title>{{ $metaTitle ?: 'The Coder Blog'  }}</title>
     <meta name="author" content="">
     <meta name="description" content="{{ $metaDescription }}">
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
-
     </style>
-     <!-- Font Awesome -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
             integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous">
     </script>
 
     @livewireStyles
-     <!-- Scripts -->
-     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-50 font-family-karla">
 
@@ -49,11 +50,12 @@
             </a>
         </div>
         <div :class="open ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
+            
+            <!-- Category Titles -->
             <div class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-between text-sm font-bold uppercase mt-0 px-6 py-2"> 
-            <!-- Header Nav Profile -->
                 <div>
                     <a href="{{route('home')}}" class="hover:bg-blue-600 hover:text-white rounded py-2 px-4 mx-2">Home</a>
-                    @foreach ($categories as $category )
+                    @foreach ($categories as $category)
                         <a href="{{ route('by-category', $category) }}"
                             class="hover:bg-blue-600 hover:text-white rounded py-2 px-4 mx-2
                                 {{ request('category')?->slug === $category->slug ? 'bg-blue-600 text-white' : ''}}"
@@ -63,19 +65,29 @@
                     @endforeach
                     <a href="{{route('about-us')}}" class="hover:bg-blue-600 hover:text-white rounded py-2 px-4 mx-2">About Us</a>
                 </div>
-            
-            <!-- End eader Nav Profile -->
             </div>
 
-            <!-- User Profile -->
+            
+
+            <!-- User Profile & Global Search -->
             <div class="mx-auto flex flex-col sm:flex-row items-center justify-between text-sm font-bold uppercase mt-0 px-6 py-2">
+                
+                <!-- Global Search -->
+                <form method="get" action="{{route('search')}}">
+                    <input name="q" value="{{request()->get('q')}}"
+                            class="block w-full rounded-md border-0 px-3.5 py-2 t0ext-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 
+                                    focus:ring-inset sm:text-sm sm:leading-6 font-medium"
+                            placeholder="Type an hit enter to search anything"
+                    />
+                </form>
+
+                <!-- User Profile -->
                 @auth
                     <div class="flex sm:items-center sm:ms-6">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button class="hover:bg-blue-600 hover:text-white flex items-center rounded py-2 px-4 mx-2">
                                     <div>{{ Auth::user()->name }}</div>
-        
                                     <div class="ms-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -111,10 +123,9 @@
         </div>
     </nav>
 
-    <div class="container mx-auto flex flex-wrap py-6">
-
+    <!-- Body Posts --->
+    <div class="container mx-auto py-6">
         {{ $slot }}
-
     </div>
 
     <footer class="w-full border-t bg-white pb-12">
@@ -122,6 +133,7 @@
             <div class="uppercase py-6">&copy; myblog.com</div>
         </div>
     </footer>
-@livewireScripts
+
+    @livewireScripts
 </body>
 </html>

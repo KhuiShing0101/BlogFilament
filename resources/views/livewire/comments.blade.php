@@ -1,6 +1,7 @@
-<div>
-    {{-- The best athlete wants his opponent at his best. --}}
-    <input placeholder="Leave a comments">
-    <button class="py-2">Submit</button>
-    <button>Cancle</button>
+<div class="mt-6">
+    <livewire:comment-create :post="$post"/>
+
+    @foreach ($comments as $comment)
+        <livewire:comment-item :comment="$comment" wire:key="comment-{{ $comment->id }}{{$comment->comments->count()}}"/>
+    @endforeach
 </div>
